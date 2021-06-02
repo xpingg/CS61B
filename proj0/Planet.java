@@ -45,7 +45,7 @@ public class Planet
 	public double calcForceExertedByX(Planet p)
 	{
 		double totalForce = calcForceExertedBy(p);
-		double xDistance = xxPos - p.xxPos;
+		double xDistance = p.xxPos - xxPos;
 		double distance = calcDistance(p);
 		return totalForce * xDistance/distance;
 		//return xDistance >= 0 ? totalForce * xDistance/distance:-(totalForce * xDistance/distance);
@@ -54,7 +54,7 @@ public class Planet
 	public double calcForceExertedByY(Planet p)
 	{
 		double totalForce = calcForceExertedBy(p);
-		double yDistance = yyPos - p.yyPos;
+		double yDistance = p.yyPos - yyPos;
 		double distance = calcDistance(p);
 		return totalForce * yDistance/distance;
 		//return yDistance >= 0 ? totalForce * yDistance/distance:-(totalForce * yDistance/distance);
@@ -70,7 +70,8 @@ public class Planet
 			{
 				continue;
 			}
-			netForceExertedByX += (xxPos - p.xxPos)>0? calcForceExertedByX(p):-(calcForceExertedByX(p));
+			netForceExertedByX += calcForceExertedByX(p);
+			//netForceExertedByX += (xxPos - p.xxPos)>0? calcForceExertedByX(p):-(calcForceExertedByX(p));
 		}
 		return netForceExertedByX;
 		//return netForceExertedByX >= 0? netForceExertedByX: -netForceExertedByX;
@@ -86,7 +87,8 @@ public class Planet
 			{
 				continue;
 			}
-			netForceExertedByY += (yyPos - p.yyPos)>0? calcForceExertedByY(p):-(calcForceExertedByY(p));
+			netForceExertedByY += calcForceExertedByY(p);
+			//netForceExertedByY += (yyPos - p.yyPos)>0? calcForceExertedByY(p):-(calcForceExertedByY(p));
 		}
 		
 		return netForceExertedByY;
