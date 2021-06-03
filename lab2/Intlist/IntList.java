@@ -128,7 +128,7 @@ public class IntList {
         {
             return B;
         }
-        IntList movePtr = new IntList(A.first * A.first, A.rest);
+        IntList movePtr = new IntList(A.first, A.rest);
         IntList returnPtr = movePtr;
 
         while(A.rest != null)
