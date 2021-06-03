@@ -29,7 +29,7 @@ public class IntList {
      * A List with null rest, and first = 0.
      */
     public IntList() {
-    /* NOTE: public IntList () { }  would also work. */
+        /* NOTE: public IntList () { }  would also work. */
         this(0, null);
     }
 
@@ -82,7 +82,37 @@ public class IntList {
 
     public static IntList dcatenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        /** iteration method */
+
+        /*
+        if(A == null)
+        {
+           return B;
+        }
+
+        IntList returnPtr = A;
+
+        while(A.rest != null)
+        {
+            A = A.rest;
+        }
+        A.rest = B;
+        return returnPtr;
+        */
+
+        /** recursive method */
+
+        if(A == null)
+        {
+            return B;
+        }
+        IntList returnPtr = A;
+        if (A.rest == null) {
+            A.rest = B;
+        } else {
+            A = dcatenate(A.rest, B);
+        }
+        return returnPtr;
     }
 
     /**
@@ -91,8 +121,45 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
-        return null;
+        /** iteration method */
+        /*
+        if(A == null)
+        {
+            return B;
+        }
+        IntList movePtr = new IntList(A.first * A.first, A.rest);
+        IntList returnPtr = movePtr;
+
+        while(A.rest != null)
+        {
+            A = A.rest;
+            movePtr.rest =  new IntList(A.first, A.rest);
+            movePtr = movePtr.rest;
+        }
+        movePtr.rest = B;
+
+        return returnPtr;
+        */
+        /** recursive method*/
+        if (A == null)
+        {
+            return B;
+        }
+        IntList movePtr = new IntList(A.first,A.rest);
+        IntList returnPtr = movePtr;
+        if(A.rest == null)
+        {
+            movePtr.rest = B;
+        }
+        else
+        {
+            movePtr.rest = catenate(A.rest,B);
+        }
+        return returnPtr;
     }
+
+
+
 
 
 
