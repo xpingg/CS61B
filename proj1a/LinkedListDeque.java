@@ -88,7 +88,7 @@ public class LinkedListDeque<T>
         T returnItem = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
-        size--;
+
         return returnItem;
     }
 
@@ -101,6 +101,7 @@ public class LinkedListDeque<T>
         {
             p = p.next;
             returnItem = p.item;
+            currentIndex++;
         }
 
         return returnItem;
