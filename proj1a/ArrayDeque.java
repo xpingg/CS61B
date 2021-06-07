@@ -13,6 +13,7 @@ public class ArrayDeque<T>
     private int lastSize = 0;
 
 
+
     private static int dumpSize = 4;
 
     public ArrayDeque()
@@ -22,20 +23,20 @@ public class ArrayDeque<T>
 
     }
 
-    public void expandSizeFirst(int newCapacity)
+    private void expandSizeFirst(int newCapacity)
     {
 
         T[] temp = (T[]) new Object[newCapacity];
-        System.arraycopy(itemsFirst,0,temp,0,firstSize);
+        System.arraycopy(itemsFirst,0,temp,0,itemsFirst.length);
         itemsFirst = temp;
 
     }
 
     public void addFirst(T item)
     {
-        if(firstSize == itemsFirst.length)
+        if(nextFirst > itemsFirst.length - 1)
         {
-            expandSizeFirst(firstSize * 2);
+            expandSizeFirst(itemsFirst.length * 2);
         }
 
         itemsFirst[nextFirst] = item;
@@ -47,19 +48,19 @@ public class ArrayDeque<T>
         firstSize++;
     }
 
-    public void expandSizeLast(int newCapacity)
+    private void expandSizeLast(int newCapacity)
     {
 
         T[] temp = (T[]) new Object[newCapacity];
-        System.arraycopy(itemsLast,0,temp,0,lastSize);
+        System.arraycopy(itemsLast,0,temp,0, itemsLast.length);
         itemsLast = temp;
 
     }
     public void addLast(T item)
     {
-        if(lastSize == itemsLast.length)
+        if(nextLast > itemsLast.length - 1)
         {
-            expandSizeLast(lastSize * 2);
+            expandSizeLast(itemsLast.length * 2);
         }
 
         itemsLast[nextLast] = item;
@@ -94,7 +95,7 @@ public class ArrayDeque<T>
 
     }
 
-    public void halfSizeFirst(int newCapacity)
+    private void halfSizeFirst(int newCapacity)
     {
 
         T[] temp = (T[]) new Object[newCapacity];
@@ -111,11 +112,11 @@ public class ArrayDeque<T>
             System.arraycopy(itemsFirst, 0, temp, 0, newCapacity);
         }
         itemsFirst = temp;
-        firstSize = firstSize / 2;
+
 
     }
 
-    public void halfSizeLast(int newCapacity)
+    private void halfSizeLast(int newCapacity)
     {
 
         T[] temp = (T[]) new Object[newCapacity];
@@ -132,7 +133,7 @@ public class ArrayDeque<T>
             System.arraycopy(itemsLast, 0, temp, 0, newCapacity);
         }
         itemsLast = temp;
-        lastSize = lastSize / 2;
+
 
     }
 
@@ -180,7 +181,7 @@ public class ArrayDeque<T>
 
         if(thisLast >= 0)
         {
-            returnResult = itemsFirst[thisFirst];
+            returnResult = itemsLast[thisLast];
             if (lastSize / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
             {
                 halfSizeLast(itemsLast.length / 2);
