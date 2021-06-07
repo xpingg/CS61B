@@ -104,8 +104,7 @@ public class ArrayDeque<T>
         {
             System.arraycopy(itemsFirst,-(thisLast+1),temp,0,newCapacity);
             thisLast = -1;
-            thisFirst = firstSize / 2 - 1;
-            nextFirst = thisFirst + 1;
+
         }
         else
         {
@@ -125,8 +124,6 @@ public class ArrayDeque<T>
         {
             System.arraycopy(itemsLast,-(thisFirst+1),temp,0,newCapacity);
             thisFirst = -1;
-            thisLast = lastSize / 2 - 1;
-            nextLast = thisLast + 1;
         }
         else
         {
@@ -219,7 +216,7 @@ public class ArrayDeque<T>
             returnResult = itemsFirst[-(thisLast+1)];
             if ((thisFirst + 1)/ (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
             {
-                halfSizeLast(itemsFirst.length / 2);
+                halfSizeFirst(itemsFirst.length / 2);
             }
             thisLast--;
             firstSize--;

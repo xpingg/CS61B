@@ -5,21 +5,29 @@ public class ArrayDequeTest
     public static void testAddFirst()
     {
         ArrayDeque<Integer> ArrayDeque = new ArrayDeque();
-        ArrayDeque.addLast(0);
-        ArrayDeque.addLast(1);
+        ArrayDeque.addFirst(0);
+        ArrayDeque.addFirst(1);
+        System.out.println(ArrayDeque.removeLast());    ;
+        ArrayDeque.addLast(3);
         System.out.println(ArrayDeque.removeFirst());   ;
-        System.out.println(ArrayDeque.removeLast())  ;
-        ArrayDeque.addLast(4);
-        System.out.println(ArrayDeque.get(0)) ;    ;
-        ArrayDeque.addFirst(6);
-        ArrayDeque.addFirst(7);
+        System.out.println(ArrayDeque.removeLast());    ;
+        ArrayDeque.addLast(6);
+        System.out.println(ArrayDeque.removeLast());     ;
         ArrayDeque.addLast(8);
         ArrayDeque.addLast(9);
         ArrayDeque.addLast(10);
-        ArrayDeque.addFirst(11);
-        System.out.println(ArrayDeque.get(0));     ;
-        ArrayDeque.addLast(13);
-        System.out.println(ArrayDeque.get(5));      ;
+        ArrayDeque.addLast(11);
+        ArrayDeque.addFirst(12);
+        System.out.println(ArrayDeque.removeLast());      ;
+        System.out.println(ArrayDeque.get(2));     ;
+        System.out.println(ArrayDeque.removeFirst());    ;
+        ArrayDeque.addLast(16);
+        System.out.println(ArrayDeque.get(1))    ;
+        ArrayDeque.addLast(18);
+        System.out.println(ArrayDeque.removeLast());      ;
+        System.out.println(ArrayDeque.removeFirst());    ;
+        ArrayDeque.addFirst(21);
+        System.out.println(ArrayDeque.removeLast());    ;
     }
     public static void main(String[] args)
     {
