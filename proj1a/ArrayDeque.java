@@ -148,7 +148,7 @@ public class ArrayDeque<T>
         if(thisFirst >= 0)
         {
             returnResult = itemsFirst[thisFirst];
-            if (firstSize / (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
+            if ((thisFirst + 1) / (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
             {
                 halfSizeFirst(itemsFirst.length / 2);
             }
@@ -159,12 +159,17 @@ public class ArrayDeque<T>
         else
         {
             returnResult = itemsLast[-(thisFirst+1)];
-            if (lastSize / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
+            if ((thisLast + 1) / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
             {
                 halfSizeLast(itemsLast.length / 2);
             }
             thisFirst--;
             lastSize--;
+            if(lastSize == 0)
+            {
+                thisLast = -1;
+                nextLast = 0;
+            }
         }
 
         return returnResult;
@@ -182,7 +187,7 @@ public class ArrayDeque<T>
         if(thisLast >= 0)
         {
             returnResult = itemsLast[thisLast];
-            if (lastSize / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
+            if ((thisLast + 1) / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
             {
                 halfSizeLast(itemsLast.length / 2);
             }
@@ -193,12 +198,17 @@ public class ArrayDeque<T>
         else
         {
             returnResult = itemsFirst[-(thisLast+1)];
-            if (firstSize / (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
+            if ((thisFirst + 1)/ (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
             {
                 halfSizeLast(itemsFirst.length / 2);
             }
             thisLast--;
             firstSize--;
+            if(firstSize == 0)
+            {
+                thisFirst = -1;
+                nextFirst = 0;
+            }
         }
 
         return returnResult;
@@ -214,12 +224,19 @@ public class ArrayDeque<T>
 
         if(index <= firstSize - 1)
         {
-            return itemsFirst[-index + firstSize - 1];
+            return itemsFirst[-index + thisFirst];
         }
         else
         {
-            index = index - firstSize;
-            return itemsLast[index];
+            if(thisFirst >= 0)
+            {
+                index = index - firstSize;
+                return itemsLast[index];
+            }
+            else
+            {
+                return itemsLast[-(thisFirst+1)+index];
+            }
         }
 
     }
