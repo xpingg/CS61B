@@ -8,6 +8,8 @@ public class ArrayDeque<T>
     private int nextLast = 0;
     private int thisFirst = -1;
     private int thisLast = -1;
+    private int firstValidAtFirst = 0;
+    private int firstValidAtLast = 0;
 
     private int firstSize = 0;
     private int lastSize = 0;
@@ -102,13 +104,14 @@ public class ArrayDeque<T>
 
         if(thisLast < 0)
         {
-            System.arraycopy(itemsFirst,-(thisLast+1),temp,0,newCapacity);
+            System.arraycopy(itemsFirst,firstValidAtFirst,temp,0,newCapacity);
             thisLast = -1;
+            firstValidAtFirst = 0;
 
         }
         else
         {
-            System.arraycopy(itemsFirst, 0, temp, 0, newCapacity);
+            System.arraycopy(itemsFirst, firstValidAtFirst, temp, 0, newCapacity);
         }
         itemsFirst = temp;
 
@@ -122,12 +125,13 @@ public class ArrayDeque<T>
 
         if(thisFirst < 0)
         {
-            System.arraycopy(itemsLast,-(thisFirst+1),temp,0,newCapacity);
+            System.arraycopy(itemsLast,firstValidAtLast,temp,0,newCapacity);
             thisFirst = -1;
+            firstValidAtLast = 0;
         }
         else
         {
-            System.arraycopy(itemsLast, 0, temp, 0, newCapacity);
+            System.arraycopy(itemsLast, firstValidAtLast, temp, 0, newCapacity);
         }
         itemsLast = temp;
 
@@ -145,7 +149,7 @@ public class ArrayDeque<T>
         if(thisFirst >= 0)
         {
             returnResult = itemsFirst[thisFirst];
-            if ((thisFirst + 1) / (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
+            if ((thisFirst + 1 - firstValidAtFirst) / (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
             {
                 halfSizeFirst(itemsFirst.length / 2);
             }
@@ -164,8 +168,8 @@ public class ArrayDeque<T>
         }
         else
         {
-            returnResult = itemsLast[-(thisFirst+1)];
-            if ((thisLast + 1) / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
+            returnResult = itemsLast[Math.max(firstValidAtLast,-(thisFirst+1))];
+            if ((thisLast + 1 - firstValidAtLast) / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
             {
                 halfSizeLast(itemsLast.length / 2);
             }
@@ -177,6 +181,8 @@ public class ArrayDeque<T>
                 nextLast = 0;
                 thisFirst = -1;
             }
+            firstValidAtLast = - thisFirst - 1;
+
         }
 
         return returnResult;
@@ -194,7 +200,7 @@ public class ArrayDeque<T>
         if(thisLast >= 0)
         {
             returnResult = itemsLast[thisLast];
-            if ((thisLast + 1) / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
+            if ((thisLast + 1 - firstValidAtLast) / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
             {
                 halfSizeLast(itemsLast.length / 2);
             }
@@ -213,8 +219,8 @@ public class ArrayDeque<T>
         }
         else
         {
-            returnResult = itemsFirst[-(thisLast+1)];
-            if ((thisFirst + 1)/ (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
+            returnResult = itemsFirst[Math.max(firstValidAtFirst,-(thisLast+1))];
+            if ((thisFirst + 1 - firstValidAtFirst)/ (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
             {
                 halfSizeFirst(itemsFirst.length / 2);
             }
@@ -226,6 +232,7 @@ public class ArrayDeque<T>
                 nextFirst = 0;
                 thisLast = -1;
             }
+            firstValidAtFirst = - thisLast - 1;
         }
 
         return returnResult;
