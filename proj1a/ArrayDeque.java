@@ -155,6 +155,15 @@ public class ArrayDeque<T>
             thisFirst--;
             nextFirst--;
             firstSize--;
+            if(firstSize == 0)
+            {
+                thisFirst = -1;
+                nextFirst = 0;
+                if(thisLast < 0)
+                {
+                    thisLast = -1;
+                }
+            }
         }
         else
         {
@@ -169,6 +178,7 @@ public class ArrayDeque<T>
             {
                 thisLast = -1;
                 nextLast = 0;
+                thisFirst = -1;
             }
         }
 
@@ -194,6 +204,15 @@ public class ArrayDeque<T>
             thisLast--;
             nextLast--;
             lastSize--;
+            if(lastSize == 0)
+            {
+                thisLast = -1;
+                nextLast = 0;
+                if(thisFirst < 0)
+                {
+                    thisFirst = -1;
+                }
+            }
         }
         else
         {
@@ -208,6 +227,7 @@ public class ArrayDeque<T>
             {
                 thisFirst = -1;
                 nextFirst = 0;
+                thisLast = -1;
             }
         }
 
@@ -230,8 +250,8 @@ public class ArrayDeque<T>
         {
             if(thisFirst >= 0)
             {
-                index = index - firstSize;
-                return itemsLast[index];
+                index = size() - 1 - index;
+                return itemsLast[thisLast - index];
             }
             else
             {
