@@ -1,287 +1,230 @@
 public class ArrayDeque<T>
 {
-    private T[] items;
-    private int size;
+    private T[] itemsFirst;
+    private T[] itemsLast;
 
 
-    private int nextFirst;
-    private int nextLast;
+    private int nextFirst = 0;
+    private int nextLast = 0;
+    private int thisFirst = -1;
+    private int thisLast = -1;
+
+    private int firstSize = 0;
+    private int lastSize = 0;
 
 
-    private int edge;
-    private int capacity;
-    private int expandTimes;
-
-    private static int dumpSize = 8;
-
-    private int[] jumpTableFirst = new int[30];
-    private int[] jumpTableLast = new int[30];
-
-    private int[] jumpBackTableFirst = new int[30];
-
-    private int[] numberOfFirst = new int[30];
-
-
-    private int firstWorkingAt = 0;
-
-
+    private static int dumpSize = 4;
 
     public ArrayDeque()
     {
-        items = (T[])new Object[dumpSize];
-        size = 0;
+        itemsFirst = (T[])new Object[dumpSize];
+        itemsLast = (T[])new Object[dumpSize];
 
-
-        nextFirst = 3;
-        nextLast = 4;
-
-        edge = 0;
-        capacity = 8;
-        expandTimes = 0;
     }
 
-    public void expandSize(int newCapacity)
+    public void expandSizeFirst(int newCapacity)
     {
 
         T[] temp = (T[]) new Object[newCapacity];
-        System.arraycopy(items,0,temp,0,size);
-        items = temp;
-        edge = size;
-
-        jumpTableFirst[expandTimes] = nextFirst;
-        jumpTableLast[expandTimes] = nextLast;
-
-        nextFirst = size + 3;
-        nextLast = size + 4;
-
-        expandTimes++;
-
-
+        System.arraycopy(itemsFirst,0,temp,0,firstSize);
+        itemsFirst = temp;
 
     }
 
     public void addFirst(T item)
     {
-        if(size == items.length)
+        if(firstSize == itemsFirst.length)
         {
-            expandSize(size * 2);
+            expandSizeFirst(firstSize * 2);
         }
 
-        items[nextFirst] = item;
+        itemsFirst[nextFirst] = item;
 
-        if(nextFirst == edge)
-        {
-            nextFirst = items.length - 1;
-        }
-        else
-        {
-            nextFirst--;
-        }
+        thisFirst = nextFirst;
 
+        nextFirst++;
 
-        int sizeLog = (int) (Math.log(size) / Math.log(2));
-
-        if(sizeLog < 3)
-        {
-            firstWorkingAt = 0;
-        }
-        else
-        {
-            firstWorkingAt = sizeLog - 2;
-        }
-
-        size++;
-        numberOfFirst[firstWorkingAt]++;
+        firstSize++;
     }
 
+    public void expandSizeLast(int newCapacity)
+    {
+
+        T[] temp = (T[]) new Object[newCapacity];
+        System.arraycopy(itemsLast,0,temp,0,lastSize);
+        itemsLast = temp;
+
+    }
     public void addLast(T item)
     {
-        if(size == items.length)
+        if(lastSize == itemsLast.length)
         {
-            expandSize(size * 2);
+            expandSizeLast(lastSize * 2);
         }
 
-        items[nextLast] = item;
+        itemsLast[nextLast] = item;
+
         thisLast = nextLast;
-        if(nextLast == items.length - 1)
-        {
-            nextLast = edge;
-        }
-        else
-        {
-            nextLast++;
-        }
-        size++;
 
+        nextLast++;
+
+        lastSize++;
     }
 
     public boolean isEmpty()
 
     {
-        return size == 0;
+        return firstSize + lastSize == 0;
     }
 
     public int size()
     {
-        return size;
+        return firstSize + lastSize;
     }
 
     public void printDeque()
     {
-        int tempExpandTimes = expandTimes - 1;
-        int tempNextFirst = nextFirst;
-        int occupied = size - edge;
-        while(occupied != 0)
+        int index = 0;
+        while(index < size())
         {
-            if(tempNextFirst + 1 == items.length)
-            {
-                tempNextFirst = edge - 1;
-            }
-            System.out.print(items[++tempNextFirst]);
+            System.out.print(get(index));
             System.out.print(" ");
-            occupied--;
+            index++;
         }
-
-        if(expandTimes == 0)
-        {
-            return;
-        }
-
-
-        tempNextFirst = jumpTableFirst[tempExpandTimes];
-
-        int loopSize = items.length / 4;
-
-
-
-        while(tempExpandTimes > 0)
-        {
-            if(tempExpandTimes == 1)
-            {
-                loopSize = dumpSize;
-            }
-            int tempLoopSize = loopSize;
-
-            while(tempLoopSize != 0)
-            {
-                if(tempNextFirst + 1 == loopSize * 2)
-                {
-                    tempNextFirst = loopSize - 1;
-                }
-                System.out.print(items[++tempNextFirst]);
-                System.out.print(" ");
-                tempLoopSize--;
-            }
-            loopSize = loopSize / 2;
-            tempExpandTimes--;
-            tempNextFirst = jumpTableFirst[tempExpandTimes];
-
-        }
-
-        tempNextFirst = jumpTableFirst[0];
-        for(int index = 0;index < dumpSize;index++)
-        {
-            if(tempNextFirst + 1 == dumpSize)
-            {
-                tempNextFirst = -1;
-            }
-            System.out.print(items[++tempNextFirst]);
-            System.out.print(" ");
-        }
-
-
 
     }
 
-    public void halfSize(int newCapacity)
+    public void halfSizeFirst(int newCapacity)
     {
-        expandTimes--;
+
         T[] temp = (T[]) new Object[newCapacity];
-        System.arraycopy(items,0,temp,0,newCapacity);
-        items = temp;
-        edge = edge / 2;
-        if(expandTimes == 0)
+
+        if(thisLast < 0)
         {
-            edge = 0;
+            System.arraycopy(itemsFirst,-(thisLast+1),temp,0,newCapacity);
+            thisLast = -1;
+            thisFirst = firstSize / 2 - 1;
+            nextFirst = thisFirst + 1;
         }
+        else
+        {
+            System.arraycopy(itemsFirst, 0, temp, 0, newCapacity);
+        }
+        itemsFirst = temp;
+        firstSize = firstSize / 2;
 
     }
 
+    public void halfSizeLast(int newCapacity)
+    {
+
+        T[] temp = (T[]) new Object[newCapacity];
+
+        if(thisFirst < 0)
+        {
+            System.arraycopy(itemsLast,-(thisFirst+1),temp,0,newCapacity);
+            thisFirst = -1;
+            thisLast = lastSize / 2 - 1;
+            nextLast = thisLast + 1;
+        }
+        else
+        {
+            System.arraycopy(itemsLast, 0, temp, 0, newCapacity);
+        }
+        itemsLast = temp;
+        lastSize = lastSize / 2;
+
+    }
 
     public T removeFirst() {
-        if (size == 0) {
-            return null;
-        }
-        if (size / (double) items.length < 0.5 && items.length > 8) {
-            halfSize(items.length / 2);
-        }
-
-        int currentFirst;
-        int currentNextFirstWorkingAt = Math.max((int)(Math.log(nextFirst+1)/Math.log(2)) - 3,0);
-        if(currentNextFirstWorkingAt > firstWorkingAt)
-        {
-            currentFirst = jumpTableFirst[firstWorkingAt];
-        }
-        else
-        {
-            currentFirst = nextFirst;
-        }
-
-        currentFirst = (currentFirst++) % (1 << firstWorkingAt + 3);
-
-        nextFirst = currentFirst;
-        nextLast = currentFirst;
-        size--;
-        return items[currentFirst];
-    }
-
-    public T removeLast()
-    {
-        if(size == 0)
+        if (isEmpty())
         {
             return null;
         }
-        if(size/(double)items.length < 0.5 && items.length > 8)
+
+        T returnResult;
+
+        if(thisFirst >= 0)
         {
-            halfSize(items.length/2);
-        }
-        if(size == edge)
-        {
-            nextLast = jumpTableLast[expandTimes];
-            nextFirst = nextLast;
+            returnResult = itemsFirst[thisFirst];
+            if (firstSize / (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
+            {
+                halfSizeFirst(itemsFirst.length / 2);
+            }
+            thisFirst--;
+            nextFirst--;
+            firstSize--;
         }
         else
         {
-            if(nextLast == edge)
+            returnResult = itemsLast[-(thisFirst+1)];
+            if (lastSize / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
             {
-                nextLast = items.length - 1;
+                halfSizeLast(itemsLast.length / 2);
             }
-            else
-            {
-                nextLast--;
-            }
+            thisFirst--;
+            lastSize--;
         }
 
-        size--;
-        return items[nextLast];
+        return returnResult;
     }
-    /*
+
+
+    public T removeLast() {
+        if (isEmpty())
+        {
+            return null;
+        }
+
+        T returnResult;
+
+        if(thisLast >= 0)
+        {
+            returnResult = itemsFirst[thisFirst];
+            if (lastSize / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
+            {
+                halfSizeLast(itemsLast.length / 2);
+            }
+            thisLast--;
+            nextLast--;
+            lastSize--;
+        }
+        else
+        {
+            returnResult = itemsFirst[-(thisLast+1)];
+            if (firstSize / (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
+            {
+                halfSizeLast(itemsFirst.length / 2);
+            }
+            thisLast--;
+            firstSize--;
+        }
+
+        return returnResult;
+    }
+
+
     public T get(int index)
     {
-        if(index < 0 || index > size - 1)
+        if (index < 0 || index > size() - 1)
         {
             return null;
         }
 
-        int reverse_index = size - 1 - index;
-
-        int partOfIndex = (int) (Math.log(reverse_index)/Math.log(2));
-
-        nextLast --
-
+        if(index <= firstSize - 1)
+        {
+            return itemsFirst[-index + firstSize - 1];
+        }
+        else
+        {
+            index = index - firstSize;
+            return itemsLast[index];
+        }
 
     }
-    */
+
+
+
 
 
 

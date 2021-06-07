@@ -15,7 +15,9 @@ public class ArrayDequeTest
         A.addFirst(9);
         A.addFirst(423);
         A.addLast(433);
-        A.removeFirst();
+        System.out.println(A.removeFirst());
+        System.out.println(A.removeLast());
+        A.addFirst(4234);
 
         A.printDeque();
 
