@@ -106,12 +106,18 @@ public class ArrayDeque<T>
         {
             System.arraycopy(itemsFirst,firstValidAtFirst,temp,0,newCapacity);
             thisLast = -1;
+
+            thisFirst = thisFirst - firstValidAtFirst;
+            nextFirst = thisFirst + 1;
             firstValidAtFirst = 0;
 
         }
         else
         {
             System.arraycopy(itemsFirst, firstValidAtFirst, temp, 0, newCapacity);
+            thisFirst = thisFirst - firstValidAtLast;
+            nextFirst = thisFirst + 1;
+            firstValidAtFirst = 0;
         }
         itemsFirst = temp;
 
@@ -127,11 +133,16 @@ public class ArrayDeque<T>
         {
             System.arraycopy(itemsLast,firstValidAtLast,temp,0,newCapacity);
             thisFirst = -1;
+            thisLast = thisLast - firstValidAtLast;
+            nextLast = thisLast + 1;
             firstValidAtLast = 0;
         }
         else
         {
             System.arraycopy(itemsLast, firstValidAtLast, temp, 0, newCapacity);
+            thisLast = thisLast - firstValidAtLast;
+            nextLast = thisLast + 1;
+            firstValidAtLast = 0;
         }
         itemsLast = temp;
 
