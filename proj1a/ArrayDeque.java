@@ -270,7 +270,7 @@ public class ArrayDeque<T>
             }
             else
             {
-                return itemsLast[-(thisFirst+1)+index];
+                return itemsLast[Math.max(firstValidAtLast,-(thisFirst+1))+index];
             }
         }
 
