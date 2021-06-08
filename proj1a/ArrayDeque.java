@@ -201,7 +201,7 @@ public class ArrayDeque<T>
             firstValidAtLast = - thisFirst - 1;
 
         }
-        System.out.println(returnResult);
+
         return returnResult;
     }
 
@@ -256,7 +256,7 @@ public class ArrayDeque<T>
             }
             firstValidAtFirst = - thisLast - 1;
         }
-        System.out.println(returnResult);
+
         return returnResult;
     }
 
