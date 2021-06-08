@@ -180,11 +180,16 @@ public class ArrayDeque<T>
         }
         else
         {
-            returnResult = itemsLast[Math.max(firstValidAtLast,-(thisFirst+1))];
+            if(-(thisFirst + 1) < firstValidAtLast)
+            {
+                thisFirst = - firstValidAtLast - 1;
+            }
+            returnResult = itemsLast[-(thisFirst+1)];
             if ((thisLast + 1 - firstValidAtLast) / (double) itemsLast.length <= 0.5 && itemsLast.length > 4)
             {
                 halfSizeLast(itemsLast.length / 2);
             }
+
             thisFirst--;
             lastSize--;
             if(lastSize == 0)
@@ -232,7 +237,11 @@ public class ArrayDeque<T>
         }
         else
         {
-            returnResult = itemsFirst[Math.max(firstValidAtFirst,-(thisLast+1))];
+            if(-(thisLast + 1) < firstValidAtFirst)
+            {
+                thisLast = -firstValidAtFirst - 1;
+            }
+            returnResult = itemsFirst[-(thisLast+1)];
             if ((thisFirst + 1 - firstValidAtFirst)/ (double) itemsFirst.length <= 0.5 && itemsFirst.length > 4)
             {
                 halfSizeFirst(itemsFirst.length / 2);
@@ -250,11 +259,8 @@ public class ArrayDeque<T>
         System.out.println(returnResult);
         return returnResult;
     }
-    
-   
 
-
- public T get(int index)
+    public T get(int index)
     {
         if (index < 0 || index > size() - 1)
         {
@@ -281,6 +287,10 @@ public class ArrayDeque<T>
 
 
     }
+
+
+
+
 
 
 
