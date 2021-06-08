@@ -115,7 +115,7 @@ public class ArrayDeque<T>
         else
         {
             System.arraycopy(itemsFirst, firstValidAtFirst, temp, 0, newCapacity);
-            thisFirst = thisFirst - firstValidAtLast;
+            thisFirst = thisFirst - firstValidAtFirst;
             nextFirst = thisFirst + 1;
             firstValidAtFirst = 0;
         }
@@ -169,6 +169,7 @@ public class ArrayDeque<T>
             firstSize--;
             if(firstSize == 0)
             {
+                firstValidAtFirst = 0;
                 thisFirst = -1;
                 nextFirst = 0;
                 if(thisLast < 0)
@@ -195,7 +196,7 @@ public class ArrayDeque<T>
             firstValidAtLast = - thisFirst - 1;
 
         }
-
+        System.out.println(returnResult);
         return returnResult;
     }
 
@@ -220,6 +221,7 @@ public class ArrayDeque<T>
             lastSize--;
             if(lastSize == 0)
             {
+                firstValidAtLast = 0;
                 thisLast = -1;
                 nextLast = 0;
                 if(thisFirst < 0)
@@ -245,12 +247,14 @@ public class ArrayDeque<T>
             }
             firstValidAtFirst = - thisLast - 1;
         }
-
+        System.out.println(returnResult);
         return returnResult;
     }
+    
+   
 
 
-    public T get(int index)
+ public T get(int index)
     {
         if (index < 0 || index > size() - 1)
         {
@@ -274,10 +278,9 @@ public class ArrayDeque<T>
             }
         }
 
+
+
     }
-
-
-
 
 
 
