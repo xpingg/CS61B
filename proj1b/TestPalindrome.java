@@ -45,8 +45,24 @@ public class TestPalindrome {
     public void testIsPalindrome()
     {
          CharacterComparator cc = new OffByOne();
-         assertTrue(palindrome.isPalindrome("flake",cc));
+
+         assertTrue(palindrome.isPalindrome(""));
+         assertTrue(palindrome.isPalindrome("e"));
          assertTrue(palindrome.isPalindrome("eeaeeaee"));
+         assertFalse(palindrome.isPalindrome("eea5eeaee"));
+         assertFalse(palindrome.isPalindrome("!#34!"));
+         assertTrue(palindrome.isPalindrome("!##!"));
+         assertTrue(palindrome.isPalindrome("AbabA"));
+         assertFalse(palindrome.isPalindrome("ababA"));
+
+         assertTrue(palindrome.isPalindrome("",cc));
+         assertTrue(palindrome.isPalindrome("f",cc));
+         assertTrue(palindrome.isPalindrome("flake",cc));
+         assertFalse(palindrome.isPalindrome("eeeee",cc));
+         assertFalse(palindrome.isPalindrome("#!!#",cc));
+         assertTrue(palindrome.isPalindrome("##$$",cc));
+         assertFalse(palindrome.isPalindrome("Abab",cc));
+         assertTrue(palindrome.isPalindrome("AbaB",cc));
     }
 
 }
