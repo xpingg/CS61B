@@ -76,7 +76,7 @@ public class ArrayDeque<T> implements Deque<T>
         lastSize++;
     }
 
-    @Override
+
     public void insert(T x,int position)
     {
         if(position < 0)

@@ -4,8 +4,6 @@ public interface Deque<T>
 
     public void addLast(T item);
 
-    public void insert(T x,int position);
-
     public boolean isEmpty();
 
     public int size();

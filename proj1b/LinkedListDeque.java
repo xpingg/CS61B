@@ -47,7 +47,7 @@ public class LinkedListDeque<T> implements Deque<T>
         size++;
     }
 
-    @Override
+
     public void insert(T x,int position)
     {
         if(position < 0)
