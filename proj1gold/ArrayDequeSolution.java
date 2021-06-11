@@ -10,6 +10,7 @@ public class ArrayDequeSolution<Item> extends LinkedList<Item> {
         System.out.println("dummy");
     }
 
+
     public Item getRecursive(int i) {
         return get(i);
     }
